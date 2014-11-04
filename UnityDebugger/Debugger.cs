@@ -67,7 +67,7 @@ namespace UnityDebugger
         /// <param name="context">Context for a check (usually containing class).</param>
         public static void AssertNotNull(object obj, string name, Object context)
         {
-            if (Enabled && obj.Equals(null))
+            if (Enabled && (obj == null || obj.Equals(null)))
             {
                 Debug.LogError(name + " in object " + context.name + " ( " + context.GetType() + " ) is null!");
             }
@@ -83,9 +83,22 @@ namespace UnityDebugger
         /// <param name="message">Info to write.</param>
         public static void Log(string message)
         {
-            if (Enabled && LogLevel >= LogLevel.Info)
+            if (LogLevelEnabled(LogLevel.Info))
             {
                 Debug.Log(message);
+            }
+        }
+
+        /// <summary>
+        /// Writes info to console. Works only when Debugger is Enabled.
+        /// </summary>
+        /// <param name="message">Info to write.</param>
+        /// <param name="context">Context.</param>
+        public static void Log(string message, Object context)
+        {
+            if (LogLevelEnabled(LogLevel.Info))
+            {
+                Debug.Log(message, context);
             }
         }
 
@@ -95,9 +108,22 @@ namespace UnityDebugger
         /// <param name="message">Warning to write.</param>
         public static void LogWarning(string message)
         {
-            if (Enabled && LogLevel >= LogLevel.Warning)
+            if (LogLevelEnabled(LogLevel.Warning))
             {
                 Debug.LogWarning(message);
+            }
+        }
+
+        /// <summary>
+        /// Writes warning to console. Works only when Debugger is Enabled.
+        /// </summary>
+        /// <param name="message">Warning to write.</param>
+        /// <param name="context">Context.</param>
+        public static void LogWarning(string message, Object context)
+        {
+            if (LogLevelEnabled(LogLevel.Warning))
+            {
+                Debug.LogWarning(message, context);
             }
         }
 
@@ -107,9 +133,21 @@ namespace UnityDebugger
         /// <param name="message">Error to write.</param>
         public static void LogError(string message)
         {
-            if (Enabled && LogLevel >= LogLevel.Error)
+            if (LogLevelEnabled(LogLevel.Error))
             {
                 Debug.LogError(message);
+            }
+        }
+        /// <summary>
+        /// Writes error to console. Works only when Debugger is Enabled.
+        /// </summary>
+        /// <param name="message">Error to write.</param>
+        /// <param name="context">Context.</param>
+        public static void LogError(string message, Object context)
+        {
+            if (LogLevelEnabled(LogLevel.Error))
+            {
+                Debug.LogError(message, context);
             }
         }
 
@@ -119,10 +157,32 @@ namespace UnityDebugger
         /// <param name="exception">Exception to write.</param>
         public static void LogException(Exception exception)
         {
-            if (Enabled && LogLevel >= LogLevel.Exception)
+            if (LogLevelEnabled(LogLevel.Exception))
             {
                 Debug.LogException(exception);
             }
+        }
+
+        /// <summary>
+        /// Writes exception to console. Works only when Debugger is Enabled.
+        /// </summary>
+        /// <param name="exception">Exception to write.</param>
+        /// <param name="context">Context.</param>
+        public static void LogException(Exception exception, Object context)
+        {
+            if (LogLevelEnabled(LogLevel.Exception))
+            {
+                Debug.LogException(exception, context);
+            }
+        }
+
+        #endregion
+
+        #region HelperFunctions
+
+        private static bool LogLevelEnabled(LogLevel logLevel)
+        {
+            return Enabled && LogLevel >= logLevel;
         }
 
         #endregion
