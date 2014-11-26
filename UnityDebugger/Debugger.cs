@@ -50,12 +50,12 @@ namespace UnityDebugger
         /// Throws AssertException if statement is false. Works only when Debugger is Enabled.
         /// </summary>
         /// <param name="statement">Statement to check</param>
-        /// <param name="name">Name of statement</param>
-        public static void Assert(bool statement, string name = "Statement")
+        /// <param name="errorText">Name of statement</param>
+        public static void Assert(bool statement, string errorText = "Statement is false!")
         {
             if (Enabled && !statement)
             {
-                throw new AssertException(name + " is false!");
+                throw new AssertException(errorText);
             }
         }
 
@@ -69,57 +69,33 @@ namespace UnityDebugger
         {
             if (Enabled && (obj == null || obj.Equals(null)))
             {
-                Debug.LogError(name + " in object " + context.name + " ( " + context.GetType() + " ) is null!");
+                Debug.LogError(name + " in object " + context.name + " ( " + context.GetType() + " ) is null!", context);
             }
         }
 
         #endregion
 
         #region Logging
-
-        /// <summary>
-        /// Writes info to console. Works only when Debugger is Enabled.
-        /// </summary>
-        /// <param name="message">Info to write.</param>
-        public static void Log(string message)
-        {
-            if (LogLevelEnabled(LogLevel.Info))
-            {
-                Debug.Log(message);
-            }
-        }
-
+        
         /// <summary>
         /// Writes info to console. Works only when Debugger is Enabled.
         /// </summary>
         /// <param name="message">Info to write.</param>
         /// <param name="context">Context.</param>
-        public static void Log(string message, Object context)
+        public static void Log(string message, Object context = null)
         {
             if (LogLevelEnabled(LogLevel.Info))
             {
                 Debug.Log(message, context);
             }
         }
-
-        /// <summary>
-        /// Writes warning to console. Works only when Debugger is Enabled.
-        /// </summary>
-        /// <param name="message">Warning to write.</param>
-        public static void LogWarning(string message)
-        {
-            if (LogLevelEnabled(LogLevel.Warning))
-            {
-                Debug.LogWarning(message);
-            }
-        }
-
+        
         /// <summary>
         /// Writes warning to console. Works only when Debugger is Enabled.
         /// </summary>
         /// <param name="message">Warning to write.</param>
         /// <param name="context">Context.</param>
-        public static void LogWarning(string message, Object context)
+        public static void LogWarning(string message, Object context = null)
         {
             if (LogLevelEnabled(LogLevel.Warning))
             {
@@ -131,19 +107,8 @@ namespace UnityDebugger
         /// Writes error to console. Works only when Debugger is Enabled.
         /// </summary>
         /// <param name="message">Error to write.</param>
-        public static void LogError(string message)
-        {
-            if (LogLevelEnabled(LogLevel.Error))
-            {
-                Debug.LogError(message);
-            }
-        }
-        /// <summary>
-        /// Writes error to console. Works only when Debugger is Enabled.
-        /// </summary>
-        /// <param name="message">Error to write.</param>
         /// <param name="context">Context.</param>
-        public static void LogError(string message, Object context)
+        public static void LogError(string message, Object context = null)
         {
             if (LogLevelEnabled(LogLevel.Error))
             {
@@ -155,20 +120,8 @@ namespace UnityDebugger
         /// Writes exception to console. Works only when Debugger is Enabled.
         /// </summary>
         /// <param name="exception">Exception to write.</param>
-        public static void LogException(Exception exception)
-        {
-            if (LogLevelEnabled(LogLevel.Exception))
-            {
-                Debug.LogException(exception);
-            }
-        }
-
-        /// <summary>
-        /// Writes exception to console. Works only when Debugger is Enabled.
-        /// </summary>
-        /// <param name="exception">Exception to write.</param>
         /// <param name="context">Context.</param>
-        public static void LogException(Exception exception, Object context)
+        public static void LogException(Exception exception, Object context = null)
         {
             if (LogLevelEnabled(LogLevel.Exception))
             {
